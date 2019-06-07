@@ -24,6 +24,8 @@ namespace ContactsWebAPI
             Configuration = configuration;
         }
 
+        readonly string ContactsAppPolicy = "_contactsAppPolicy";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -34,7 +36,7 @@ namespace ContactsWebAPI
 
             services.AddDbContext<ContactdbContext>(opt =>
             {
-                opt.UseSqlServer(Configuration.GetConnectionString("Local"));
+                opt.UseSqlServer(Configuration.GetConnectionString("Azure"));
             });
 
             services.AddCors(o => o.AddPolicy("ContactsAppPolicy",
@@ -56,6 +58,8 @@ namespace ContactsWebAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(ContactsAppPolicy);
 
             app.UseHttpsRedirection();
             app.UseMvc();

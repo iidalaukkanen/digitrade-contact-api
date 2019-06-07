@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ContactsWebAPI.Models;
 using ContactsWebAPI.Repositories;
 using ContactsWebAPI.Services;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace ContactsWebAPI.Controllers
 {
@@ -24,6 +24,7 @@ namespace ContactsWebAPI.Controllers
             _contactService = contactService;
         }
 
+        [EnableCors("ContactsAppPolicy")]
         [HttpPost]
         public ActionResult<Contact> Post(Contact contact)
         {
@@ -31,12 +32,14 @@ namespace ContactsWebAPI.Controllers
             return new JsonResult(newContact);
         }
 
+        [EnableCors("ContactsAppPolicy")]
         [HttpGet]
         public ActionResult<List<Contact>> GetContacts()
         {
             return new JsonResult(_contactService.Read());
         }
 
+        [EnableCors("ContactsAppPolicy")]
         [HttpGet("{id}")]
         public ActionResult<Contact> Get(int id)
         {
@@ -44,6 +47,7 @@ namespace ContactsWebAPI.Controllers
             return new JsonResult(contact);
         }
 
+        [EnableCors("ContactsAppPolicy")]
         [HttpPut("{id}")]
         public ActionResult<Contact> Put(int id, Contact contact)
         {
@@ -51,6 +55,7 @@ namespace ContactsWebAPI.Controllers
             return new JsonResult(updateContact);
         }
 
+        [EnableCors("ContactsAppPolicy")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
